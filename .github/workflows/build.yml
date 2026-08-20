@@ -1,0 +1,26 @@
+name: Build APK
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: تحميل المشروع
+        uses: actions/checkout@v4
+
+      - name: بناء APK
+        uses: ArtemSBulgakov/buildozer-action@v1.2.0
+        id: buildozer
+        with:
+          workdir: .
+          command: buildozer android debug
+
+      - name: حفظ APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: CityDrive-APK
+          path: bin/*.apk
